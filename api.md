@@ -92,11 +92,24 @@
     ##### 回傳結果
     成功
     ```javascript
-    {"status":"success","data":{"account":"qoo@gmail.com","nickname":"qoo","id":34}}
+	{  
+	   "status":"success",
+	   "data":{  
+	      "account":"qoo@gmail.com",
+	      "nickname":"qoo",
+	      "id":34
+	   }
+	}
     ```
     失敗
     ```javascript
-    {"status":"error","error":{"code":1,"message":"account is required"}}
+	{  
+	   "status":"error",
+	   "error":{  
+	      "code":1,
+	      "message":"account is required"
+	   }
+	}
     ```
     回傳參數說明
     
@@ -128,12 +141,23 @@
     成功
 
     ```javascript
-	{"status":"success","data":{"loginUrl":"http:\/\/feature_api.dev\/api\/v2\/slot\/player\/login?token=eyJpdiI6IlU4bmFUOEJiNnpneFdVd3RkQjNtd3c9PSIsInZhbHVlIjoiUWhDUXZwRVduRHdIK25NK2kzYjdCZ2FFKzUwclRwd1BYcEszOTdxOHBRTHNVc2E5OVwvcDE5TmRYMjNxTzZ2dHVldzRUSFhLVHhkVEJOSHgzNVAwXC80cUNjeHQzME05clp2MG9JeVRMQTNPbzV0SWNvZGRyeGVCaWhOQWp2V0prRUlLSXgydkMyTkdCV1lWQ3ArMWxqNmk3WG1BOE83S1o4SVwveWxjeXMwbDl1amR6VXJiMU1TN1wvaVBKZXdLSzllbHE5eitnaGFRV3BWdFwvd25YYVZUUWljbWRnbWpJdVVxM1pnZk5qNUlXSXVYcWU0UTJjZVpwNGthWXRVUGdBVnZ6dlNoczVIem9HZThCNUl6WUJ2QzN6QT09IiwibWFjIjoiMTIxMmNjMDY2ZmJjYzg3NjFlMzQzZmFiN2VmNjc3ZDcyNGI5NTZkNmZhZDY0YzZhYmZjYWNhYjk1YzM2MGM2NCJ9"}}   
+	{  
+	   "status":"success",
+	   "data":{  
+	      "loginUrl":"http:\/\/feature_api.dev\/api\/v2\/slot\/player\/login?token=eyJpdiI6IlU4bmFUOEJiNnpneFdVd3RkQjNtd3c9PSIsInZhbHVlIjoiUWhDUXZwRVduRHdIK25NK2kzYjdCZ2FFKzUwclRwd1BYcEszOTdxOHBRTHNVc2E5OVwvcDE5TmRYMjNxTzZ2dHVldzRUSFhLVHhkVEJOSHgzNVAwXC80cUNjeHQzME05clp2MG9JeVRMQTNPbzV0SWNvZGRyeGVCaWhOQWp2V0prRUlLSXgydkMyTkdCV1lWQ3ArMWxqNmk3WG1BOE83S1o4SVwveWxjeXMwbDl1amR6VXJiMU1TN1wvaVBKZXdLSzllbHE5eitnaGFRV3BWdFwvd25YYVZUUWljbWRnbWpJdVVxM1pnZk5qNUlXSXVYcWU0UTJjZVpwNGthWXRVUGdBVnZ6dlNoczVIem9HZThCNUl6WUJ2QzN6QT09IiwibWFjIjoiMTIxMmNjMDY2ZmJjYzg3NjFlMzQzZmFiN2VmNjc3ZDcyNGI5NTZkNmZhZDY0YzZhYmZjYWNhYjk1YzM2MGM2NCJ9"
+	   }
+	}	  
 
     ```
     失敗
     ```javascript
-    {"status":"error","error":{"code":1,"message":"account is required"}}
+	{  
+	   "status":"error",
+	   "error":{  
+	      "code":1,
+	      "message":"account is required"
+	   }
+	}
     ```
     
     回傳參數說明
@@ -182,12 +206,33 @@
     成功
 
     ```javascript
-     {"status":"success","data":{"id":30,"account":"mm@gmail.com","nickname":"mm","credit":0,"loginAt":null,"logoutAt":null,"mode":0,"enable":1,"limitWin":11111,"limitLose":30000,"isOnline":false}}
+	{  
+	   "status":"success",
+	   "data":{  
+	      "id":30,
+	      "account":"mm@gmail.com",
+	      "nickname":"mm",
+	      "credit":0,
+	      "loginAt":null,
+	      "logoutAt":null,
+	      "mode":0,
+	      "enable":1,
+	      "limitWin":11111,
+	      "limitLose":30000,
+	      "isOnline":false
+	   }
+	}
     ```
     失敗
 
     ```javascript
-    {"status":"error","error":{"code":1,"message":"account is required"}}
+	{  
+	   "status":"error",
+	   "error":{  
+	      "code":1,
+	      "message":"account is required"
+	   }
+	}
     ```
     回傳參數說明
     
@@ -229,12 +274,32 @@
     成功
 
     ```javascript
-     [{"id":30,"user_id":1,"initial_chips":100720,"sum_of_bet":0,"sum_of_win_chips":0,"final_chips":100720,"ip":"192.168.10.1","login_at":"2016-04-12 18:29:49","logout_at":"2016-04-12 18:32:23","created_at":"2016-04-12 18:29:49","updated_at":"2016-04-12 18:32:23"}]}
+	[  
+	   {  
+	      "id":30,
+	      "user_id":1,
+	      "initial_chips":100720,
+	      "sum_of_bet":0,
+	      "sum_of_win_chips":0,
+	      "final_chips":100720,
+	      "ip":"192.168.10.1",
+	      "login_at":"2016-04-12 18:29:49",
+	      "logout_at":"2016-04-12 18:32:23",
+	      "created_at":"2016-04-12 18:29:49",
+	      "updated_at":"2016-04-12 18:32:23"
+	   }
+	]
     ```
     失敗
 
     ```javascript
-    {"status":"error","error":{"code":1,"message":"endAt is required"}}
+	{  
+	   "status":"error",
+	   "error":{  
+	      "code":1,
+	      "message":"endAt is required"
+	   }
+	}
     ```
     回傳參數說明
     
@@ -300,7 +365,18 @@
     成功
 
     ```javascript
-	{"status":"success","data":{"originalCredit":0,"addedCredit":3000,"finalCredit":3000,"account":"mm@gmail.com","orderId":2,"transferId":"fsefs","status":0}}
+	{  
+	   "status":"success",
+	   "data":{  
+	      "originalCredit":0,
+	      "addedCredit":3000,
+	      "finalCredit":3000,
+	      "account":"mm@gmail.com",
+	      "orderId":2,
+	      "transferId":"fsefs",
+	      "status":0
+	   }
+	}
     ```
     失敗
 
@@ -342,7 +418,18 @@
     成功
 
     ```javascript
-	{"status":"success","data":{"originalCredit":0,"addedCredit":3000,"finalCredit":3000,"account":"mm@gmail.com","orderId":2,"transferId":"fsefs","status":0}}
+	{  
+	   "status":"success",
+	   "data":{  
+	      "originalCredit":0,
+	      "addedCredit":3000,
+	      "finalCredit":3000,
+	      "account":"mm@gmail.com",
+	      "orderId":2,
+	      "transferId":"fsefs",
+	      "status":0
+	   }
+	}
     ```
     失敗
 
@@ -388,7 +475,15 @@
     成功
 
     ```javascript
-        {"status":"success","data":[{"status":"kicked","account":"haha0738@ifalo.com.tw"}]}
+	{  
+	   "status":"success",
+	   "data":[  
+	      {  
+	         "status":"kicked",
+	         "account":"haha0738@ifalo.com.tw"
+	      }
+	   ]
+	}
 
     ```
     失敗
@@ -428,7 +523,23 @@
     成功
 
     ```javascript
-        {"status":"success","data":[{"account":"kk","status":"user_not_found"},{"account":"aa","status":"user_not_found"},{"status":"user_offline","account":"haha0738@ifalo.com.tw"}]}
+	{  
+	   "status":"success",
+	   "data":[  
+	      {  
+	         "account":"kk",
+	         "status":"user_not_found"
+	      },
+	      {  
+	         "account":"aa",
+	         "status":"user_not_found"
+	      },
+	      {  
+	         "status":"user_offline",
+	         "account":"haha0738@ifalo.com.tw"
+	      }
+	   ]
+	}
     ```
     失敗
 
@@ -469,7 +580,14 @@
     成功
 
     ```javascript
-       {"status":"success","data":{"account":"haha0738@ifalo.com.tw","limitLose":500,"limitWin":"5000"}}
+	{  
+	   "status":"success",
+	   "data":{  
+	      "account":"haha0738@ifalo.com.tw",
+	      "limitLose":500,
+	      "limitWin":"5000"
+	   }
+	}
     ```
     失敗
 
@@ -510,7 +628,14 @@
     成功
 
     ```javascript
-       {"status":"success","data":{"account":"haha0738@ifalo.com.tw","limitLose":500,"limitWin":"5000"}}
+	{  
+	   "status":"success",
+	   "data":{  
+	      "account":"haha0738@ifalo.com.tw",
+	      "limitLose":500,
+	      "limitWin":"5000"
+	   }
+	}
     ```
     失敗
 
@@ -550,7 +675,13 @@
     成功
 
     ```javascript
-    {"status":"success","data":{"account":"mm@gmail.com","winChips":0}}
+	{  
+	   "status":"success",
+	   "data":{  
+	      "account":"mm@gmail.com",
+	      "winChips":0
+	   }
+	}
     ```
     失敗
 
@@ -589,7 +720,15 @@
     成功
 
     ```javascript
-      {"status":"success","data":[{"account":"haha0738@ifalo.com.tw","mode":"banned"}]}
+	{  
+	   "status":"success",
+	   "data":[  
+	      {  
+	         "account":"haha0738@ifalo.com.tw",
+	         "mode":"banned"
+	      }
+	   ]
+	}
     ```
     失敗
 
@@ -620,7 +759,12 @@
     成功
 
     ```javascript
-      {"status":"success","data":{"success":true}}
+	{  
+	   "status":"success",
+	   "data":{  
+	      "success":true
+	   }
+	}
     ```
     失敗
 
@@ -653,7 +797,16 @@
     成功
 
     ```javascript
-    {"status":"success","data":{"account":"mm@gmail.com","winChips":0,"limitWin":11111,"limitLose":30000,"updatedAt":"2017-04-13 11:03:44"}}
+	{  
+	   "status":"success",
+	   "data":{  
+	      "account":"mm@gmail.com",
+	      "winChips":0,
+	      "limitWin":11111,
+	      "limitLose":30000,
+	      "updatedAt":"2017-04-13 11:03:44"
+	   }
+	}
     ```
     失敗
 
@@ -694,7 +847,15 @@
     成功
 
     ```javascript
-      {"status":"success","data":[{"account":"test-api01","status":"normal"}]}
+	{  
+	   "status":"success",
+	   "data":[  
+	      {  
+	         "account":"test-api01",
+	         "status":"normal"
+	      }
+	   ]
+	}
     ```
     失敗
 
@@ -733,7 +894,15 @@
     成功
 
     ```javascript
-      {"status":"success","data":[{"account":"test-api01","activation":1}]}
+	{  
+	   "status":"success",
+	   "data":[  
+	      {  
+	         "account":"test-api01",
+	         "activation":1
+	      }
+	   ]
+	}
     ```
 
     失敗
@@ -775,7 +944,15 @@
     成功
 
     ```javascript
-      {"status":"success","data":[{"account":"test-api01","activation":1}]}
+	{  
+	   "status":"success",
+	   "data":[  
+	      {  
+	         "account":"test-api01",
+	         "activation":1
+	      }
+	   ]
+	}
     ```
 
     失敗
@@ -817,7 +994,31 @@
     ##### 回傳結果
     成功
     ```javascript
-      "status":"success","data":[{"id":61,"machine_no":25,"bet":10,"bet_lines":9,"total_bet":90,"win_chips":0,"scatter":0,"created_at":"2016-05-03 13:42:38"},{"id":62,"machine_no":35,"bet":10,"bet_lines":9,"total_bet":90,"win_chips":0,"scatter":0,"created_at":"2016-05-03 13:45:19"},{"id":63,"machine_no":36,"bet":10,"bet_lines":9,"total_bet":90,"win_chips":0,"scatter":0,"created_at":"2016-05-03 13:48:34"},{"id":64,"machine_no":36,"bet":10,"bet_lines":9,"total_bet":90,"win_chips":0,"scatter":1,"created_at":"2016-05-03 13:49:22"},{"id":65,"machine_no":36,"bet":10,"bet_lines":9,"total_bet":90,"win_chips":40,"scatter":1,"created_at":"2016-05-03 13:49:26"},{"id":66,"machine_no":46,"bet":10,"bet_lines":9,"total_bet":90,"win_chips":0,"scatter":0,"created_at":"2016-05-03 13:52:27"}]}
+	{  
+	   "status":"success",
+	   "data":[  
+	      {  
+	         "id":61,
+	         "machine_no":25,
+	         "bet":10,
+	         "bet_lines":9,
+	         "total_bet":90,
+	         "win_chips":0,
+	         "scatter":0,
+	         "created_at":"2016-05-03 13:42:38"
+	      },
+	      {  
+	         "id":66,
+	         "machine_no":46,
+	         "bet":10,
+	         "bet_lines":9,
+	         "total_bet":90,
+	         "win_chips":0,
+	         "scatter":0,
+	         "created_at":"2016-05-03 13:52:27"
+	      }
+	   ]
+	}
     ```
 
     失敗
@@ -854,7 +1055,13 @@
 
     成功
     ```javascript
-      {"status":"success","data":{"total_bet":"540","win_chips":"40"}}
+	{  
+	   "status":"success",
+	   "data":{  
+	      "total_bet":"540",
+	      "win_chips":"40"
+	   }
+	}
     ```
 
     失敗
@@ -889,7 +1096,23 @@
 
     成功
     ```javascript
-    {"status":"success","data":[{"account":"leochen","win_chips":null,"total_bet":40,"created_at":"2016-12-16 14:00:11"},{"account":"wei01","win_chips":"28935","total_bet":40,"created_at":"2017-03-23 09:36:08"}]}
+	{  
+	   "status":"success",
+	   "data":[  
+	      {  
+	         "account":"leochen",
+	         "win_chips":null,
+	         "total_bet":40,
+	         "created_at":"2016-12-16 14:00:11"
+	      },
+	      {  
+	         "account":"wei01",
+	         "win_chips":"28935",
+	         "total_bet":40,
+	         "created_at":"2017-03-23 09:36:08"
+	      }
+	   ]
+	}
     ```
 
     失敗
@@ -925,7 +1148,18 @@
 
     成功
     ```javascript
-      {"status":"success","data":[{"id":6,"jackpot":8622,"created_at":"2016-05-30 15:06:13","paid_at":"2016-05-30 15:21:08","rate":0.15}]}
+	{  
+	   "status":"success",
+	   "data":[  
+	      {  
+	         "id":6,
+	         "jackpot":8622,
+	         "created_at":"2016-05-30 15:06:13",
+	         "paid_at":"2016-05-30 15:21:08",
+	         "rate":0.15
+	      }
+	   ]
+	}
     ```
 
     失敗
@@ -968,7 +1202,19 @@
 
     成功
     ```javascript
-      {"status":"success","data":[{"account":"ooo@gmail.com","jackpot":1,"paid_at":"2017-04-14 11:36:54","rate":1,"game_id":1,"created_at":"2017-04-13 14:31:50"}]}
+	{  
+	   "status":"success",
+	   "data":[  
+	      {  
+	         "account":"ooo@gmail.com",
+	         "jackpot":1,
+	         "paid_at":"2017-04-14 11:36:54",
+	         "rate":1,
+	         "game_id":1,
+	         "created_at":"2017-04-13 14:31:50"
+	      }
+	   ]
+	}
     ```
 
     失敗
@@ -1007,7 +1253,19 @@
 
     成功
     ```javascript
-    {"status":"success","data":[{"account":"ooo@gmail.com","jackpot":1,"paid_at":"2017-04-14 11:36:54","rate":1,"game_id":1,"created_at":"2017-04-13 14:31:50"}]}
+	{  
+	   "status":"success",
+	   "data":[  
+	      {  
+	         "account":"ooo@gmail.com",
+	         "jackpot":1,
+	         "paid_at":"2017-04-14 11:36:54",
+	         "rate":1,
+	         "game_id":1,
+	         "created_at":"2017-04-13 14:31:50"
+	      }
+	   ]
+	}
     ```
 
     失敗
@@ -1050,7 +1308,17 @@
 
     成功
     ```javascript
-    {"status":"success","data":{"id":1,"jackpot":1,"createdAt":"2017-04-13 14:31:50","paidAt":"2017-04-14 11:36:54","rate":1,"gameId":1}}
+	{  
+	   "status":"success",
+	   "data":{  
+	      "id":1,
+	      "jackpot":1,
+	      "createdAt":"2017-04-13 14:31:50",
+	      "paidAt":"2017-04-14 11:36:54",
+	      "rate":1,
+	      "gameId":1
+	   }
+	}
     ```
 
     失敗
