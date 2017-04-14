@@ -3,7 +3,29 @@
 1. [註冊帳號](#register)
 1. [取得登入連結](#auth)
 1. [登入](#login)
-1. [查詢玩家](#player-info)    
+1. [查詢玩家](#player-info)   
+2. [取得玩家遊戲紀錄](#bet-report-session)
+3. [玩家離線通知](#offline_notification)
+4. [玩家額度轉出入](#credit_transfer)
+5. [玩家轉帳狀態查詢](#transfer-status)
+6. [踢玩家](#kick)
+7. [踢多玩家](#kick-multiple)
+8. [限輸](#lose-limit)
+9. [限贏](#win-limit)
+10. [限注回復](#limit-recover)
+11. [設定玩家帳號模式](#ban-mode)
+12. [注單回補](#recover-logs)
+13. [限注查詢](#limit-query)
+14. [查詢玩家帳號模式](#get-ban-mode)
+15. [查詢玩家是否啟用遊戲](#get-activation)
+16. [設定玩家是否啟用遊戲](#set-activation)
+17. [LOG查詢](#query-logs)
+18. [玩家下注簡報查詢](#bet-report)
+19. [玩家多人下注簡報區間總額查詢](#bet-report-multiple)
+20. [玩家JP紀錄查詢](#jp-logs)
+21. [玩家多人JP紀錄查詢](#jp-multiple)
+22. [JP中獎紀錄](#jp-status)
+23. [玩家JP核銷](#jp-vertification)
 
 
 
@@ -278,7 +300,7 @@
     成功
 
     ```javascript
-	???
+	{"status":"success","data":{"originalCredit":0,"addedCredit":3000,"finalCredit":3000,"account":"mm@gmail.com","orderId":2,"transferId":"fsefs","status":0}}
     ```
     失敗
 
@@ -320,7 +342,7 @@
     成功
 
     ```javascript
-	???
+	{"status":"success","data":{"originalCredit":0,"addedCredit":3000,"finalCredit":3000,"account":"mm@gmail.com","orderId":2,"transferId":"fsefs","status":0}}
     ```
     失敗
 
