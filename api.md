@@ -71,7 +71,7 @@
 1. ### <span id="register">註冊帳號 </span>
 
     ```
-    POST /api/v2/player/register?
+    POST player/register?
         key=<key>&
         account=<account>&
         nickname=<nickname>&
@@ -121,7 +121,7 @@
 2. ### <span id="auth">取得玩家登入網址</span>
 
     ```
-    GET /api/v2/slot/player/auth?
+    GET player/auth?
         key=<key>&
         account=<account>&
         hash=<hash>
@@ -186,7 +186,7 @@
 4. ### <span id="user">查詢玩家</span>
 
     ```
-    GET /api/v2/slot/player/info?
+    GET player/info?
         key=<key>&
         account=<account>&
         hash=<hash>
@@ -250,7 +250,7 @@
 5. ### <span id="bet-report-session">取得玩家遊戲紀錄</span>
 
     ```
-    GET /api/v2/slot/player/bet/report/session?
+    GET player/bet/report/session?
         key=<key>&
         account=<account>&
         startAt=<startAt>&
@@ -341,7 +341,7 @@
 7. ### <spin id="credit_transfer">玩家額度轉出入</spin>
 
     ```
-    PUT /api/v2/slot/player/credit/transfer?
+    PUT player/credit/transfer?
         key=<key>&
         account=<account>&
         credit =<credit>&
@@ -398,7 +398,7 @@
 7. ### <spin id="transfer-status">玩家轉帳狀態查詢</spin>
 
     ```
-    GET /api/v2/slot/player/credit/transfer-status?
+    GET player/credit/transfer-status?
         key=<key>&
         transferId =<transferId>&
         hash=<hash>
@@ -453,7 +453,7 @@
 
     呼叫之後會在10秒之後將在線的玩家踢出遊戲
     ```
-    DELETE /api/v2/slot/player/kick?
+    DELETE player/kick?
         key=<key>&
         account=<account>&
         reason=<reason>&
@@ -501,7 +501,7 @@
 8. ### <spin id="kick-multiple">踢多玩家</spin>
     呼叫之後會在10秒之後將在線的玩家踢出遊戲
     ```
-    DELETE /api/v2/slot/player/kick-multiple?
+    DELETE player/kick-multiple?
         key=<key>&
         accounts=<accounts>&
         reason=<reason>&
@@ -558,7 +558,7 @@
     設定玩家限輸
 
     ```
-    PUT /api/v2/slot/player/limit/lose?
+    PUT player/limit/lose?
         key=<key>&
         account=<account>&
         limit=<limit>&
@@ -606,7 +606,7 @@
     設定玩家限贏
 
     ```
-    PUT /api/v2/slot/player/limit/win?
+    PUT player/limit/win?
         key=<key>&
         account=<account>&
         limit=<limit>&
@@ -655,7 +655,7 @@
     限注回復
 
     ```
-    PUT /api/v2/slot/player/limit/recover?
+    PUT player/limit/recover?
         key=<key>&
         account=<account>&
         hash=<hash>
@@ -698,7 +698,7 @@
     玩家封鎖模式
 
     ```
-    PUT /api/v2/slot/player/mode?
+    PUT player/mode?
         key=<key>&
         account=<account>&
         mode=<mode>&        
@@ -741,7 +741,7 @@
     注單回補，注單有可能太多，造成執行過久，所以是利用queue的方式，因此response之後注單不會立刻回補。
 
     ```
-    GET /api/v2/slot/player/logs/recover?
+    GET player/logs/recover?
         key=<key>&
         hash=<hash>
     ```
@@ -777,7 +777,7 @@
     查詢玩家限注狀態
 
     ```
-    GET /api/v2/slot/player/limit?
+    GET player/limit?
         key=<key>&
         account=<account>&
         hash=<hash>
@@ -827,7 +827,7 @@
     查詢玩家鎖單/停用狀態
 
     ```
-    GET /api/v2/slot/player/mode?
+    GET player/mode?
         key=<key>&
         account=<account>&
         hash=<hash>
@@ -874,7 +874,7 @@
     查詢玩家是否啟用遊戲
 
     ```
-    GET /api/v2/slot/player/enable?
+    GET player/enable?
         key=<key>&
         account=<account>&
         hash=<hash>
@@ -922,7 +922,7 @@
     設定玩家是否啟用遊戲
 
     ```
-    PUT /api/v2/slot/player/enable?
+    PUT player/enable?
         key=<key>&
         account=<account>&
         enable=<0|1>&
@@ -971,7 +971,7 @@
     查詢玩家下注LOG
 
     ```
-    GET /api/v2/slot/player/logs/detail?
+    GET player/logs/detail?
         key=<key>&
         account=<account>&
         startAt=<startAt>&
@@ -1031,7 +1031,7 @@
 
     玩家下注簡報查詢
     ```
-    GET /api/v2/slot/bet/report?
+    GET bet/report?
         key=<key>&
         account=<account>&
         startAt=<startAt>&
@@ -1072,7 +1072,7 @@
 
     玩家下注簡報查詢
     ```
-    GET /api/v2/slot/bet/report-multiple?
+    GET bet/report-multiple?
         key=<key>&
         gameType =<gameType>&
         startAt=<startAt>&
@@ -1124,7 +1124,7 @@
 
     玩家JP紀錄查詢
     ```
-    GET /api/v2/slot/jackpot?
+    GET jackpot?
         key=<key>&
         account=<account>&
         startAt=<startAt>&
@@ -1178,7 +1178,7 @@
 
     玩家JP紀錄查詢
     ```
-    GET /api/v2/slot/jackpot/multiple?
+    GET jackpot/multiple?
         key=<key>&
         gameType=<gameType>&
         startAt=<startAt>&
@@ -1233,7 +1233,7 @@
 
 
     ```
-    GET /api/v2/slot/jackpot-status?
+    GET jackpot-status?
         key=<key>&
         status=<status>&
         hash=<hash>
@@ -1284,7 +1284,7 @@
 
     玩家JP核銷
     ```
-    PUT /api/v2/slot/jackpot/write-off?
+    PUT jackpot/write-off?
         key=<key>&
         account=<account>&
         jp_id=<jp_id>&
