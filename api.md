@@ -1,69 +1,28 @@
-# 法老王電子遊藝城API
-## Change Log
-1. 2016-04-13
-    * 新增API
-        * [註冊帳號](#register)
-        * [取得玩家帳密](#auth)
-        * [查詢玩家](#user)
-        * [取得玩家遊戲紀錄](#logs)
-        * [玩家離線通知](#offline_notification)
-2. 2016-04-14
-    * 修復BUG
-        *  查詢玩家，查無玩家時會發生錯誤。
-        *  測試面板，API使用錯誤的 HTTP method 顯示的訊息讓人誤解。
-3. 2016-04-15
-    * 新增API
-        * [玩家加錢](#add_chips)
-        * [踢人](#kick)
-    * 修改
-        *  修改[踢人](#kick)API支援踢多人
-4. 2016-04-19
-    * 查詢玩家新增參數`status`
-5. 2016-04-22
-    * 新增[限輸](#lose-limit)
-    * 新增[限贏](#win-limit)
-    * 新增[限注回復](#limit-recover)
-    * 新增[玩家封鎖模式](#ban-mode)
-    * 新增[注單回補](#recover-logs)
-6. 2016-04-25
-    * 新增[限注查詢](#limit-query)
-7. 2016-04-29
-    * [玩家封鎖模式](#ban-mode) 新增 `no_permission`
-8. 2016-05-09
-	* 新增[查詢玩家封鎖模式](#get-ban-mode)
-	* 新增[查詢玩家是否啟用遊戲](#get-activation)
-	* 新增[設定玩家是否啟用遊戲](#set-activation)
-	* 新增`agent_name`到[註冊帳號](#register)
-9. 2016-05-25
-    * 新增[log查詢](#query-logs)
-    * 新增[玩家下注簡報查詢](#summary-logs)
-10. 2016-05-31
-    * 新增[JP紀錄查詢](#jp-logs)
-    * 新增[JP核銷](#jp-vertification)
-11. 2016-08-29
-    * 修改[登入](#login) 增加source, redirect_url參數
-    * 修改[玩家離線通知](#offline_notification)
-        * 修改參數說明
-        * 新增Hash驗證
-        * 新增Json回傳格式
-    * 修改[設定玩家是否啟用遊戲](#set-activation) Hash組合
-12. 2016-09-26
-    * 修改[JP核銷](#jp-vertification) Hash組合
-13. 2017-02-15
-	* 新增[在線用戶](#online)    
+#　API 說明文件
+## 目錄
+1. [註冊帳號](#register)
+1. [取得登入連結](#auth)
+1. [登入](#login)
+1. [查詢玩家](#player-info)    
 
 
 
 ## 登入流程
 1. 玩家透過平台登入
 2. 平台透過[註冊帳號](#register)新增帳號
-3. 平台透過[取得玩家帳號密碼](#auth)取得帳號密碼
+3. 平台透過[取得玩家登入網址](#auth)取得帳號密碼
 4. 透過表單直接將取得的帳號密碼送到[登入](#login)驗證
 5. API直接將玩家導向至遊戲網頁
 
 [流程圖連結](https://cacoo.com/diagrams/UQAlsLczvUqmOvl6)
 
 ![流程圖](https://cacoo.com/diagrams/UQAlsLczvUqmOvl6-28811.png?t=1455870225441 "API 登入 流程圖")
+
+## <span id="GameType">Slot Game Type</span>
+| 遊戲名稱  | GameType                  | 
+|---------- |-------------------------  |
+| 武士道         | samurai   | 
+| 金錢貓         | cash_cat   | 
 
 ## 錯誤代碼
 
@@ -83,16 +42,17 @@
 | 12        | \{parameter\} is invalid   | 參數不合法       |
 | 13        | log not found   | 無法查詢到紀錄       |
 | 14        | nicknames should mapping accounts   | 參數 nickname 與 accounts 需相對應    |
+| 15        |duplicate transfer id|轉帳id重複|
+| 16        |transfer log not found| 轉帳 LOG不存在|
 
 ## API
 1. ### <span id="register">註冊帳號 </span>
 
     ```
-    POST /api/user/register?
+    POST /api/v2/player/register?
         key=<key>&
         account=<account>&
-        name=<name>&
-        agent_name=<agent_name>&
+        nickname=<nickname>&
         hash=<hash>
     ```
 
@@ -102,27 +62,31 @@
     |:--------:|:--------:|:--------:|:-----------:|
     |    key   | 服務金鑰 |  string  | 由API端提供 |
     |  account | 玩家帳號 |  string  |     必填    |
-    |   name   | 玩家暱稱 |  string  |     必填    |
-    |agent_name| 代理名稱 |  string  |     必填    |
+    |   nickname   | 玩家暱稱 |  string  |     必填    |
     |   hash   | 驗證參數 |  string  |     必填    |
 
-    **hash = md5(account + name + secret)**
+    **hash = md5(account + nickname + secret)**
 
     ##### 回傳結果
     成功
     ```javascript
-    {"status":"success","data":{"account":"test","name":"test","id":7}}
+    {"status":"success","data":{"account":"test","nickname":"test","id":7}}
     ```
     失敗
     ```javascript
     {"status":"error","error":{"code":1,"message":"account is required"}}
     ```
+    回傳參數說明
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    |account| string | 帳號|
+    |nickname| string | 玩家暱稱 |
 
-
-2. ### <span id="auth">取得玩家帳號密碼</span>
+2. ### <span id="auth">取得玩家登入網址</span>
 
     ```
-    POST /api/slot/user/auth?
+    GET /api/v2/slot/player/auth?
         key=<key>&
         account=<account>&
         hash=<hash>
@@ -131,9 +95,9 @@
     ##### 參數說明
 
     | 參數名稱 | 參數說明 | 參數型態 |     說明    |
-    |:--------:|:--------:|:--------:|:-----------:|
+    |:--------:|:--------:|:--------:|:---------the--:|
     |    key   | 服務金鑰 |  string  | 由API端提供 |
-    |  account | 玩家帳號 |  string  |     必填    |
+    |  account | 玩家帳號 |  string  |     必填    |    
     |   hash   | 驗證參數 |  string  |     必填    |
 
     **hash = md5(account + secret)**
@@ -142,33 +106,26 @@
     成功
 
     ```javascript
-     {"status":"success","data":{"id":7,"account":"test","name":"test","password":"570de762d3c35","loginUrl":"http://syte.app//api/slot/user/login"}}
+	{"status":"success","data":{"loginUrl":"http:\/\/feature_api.dev\/api\/v2\/slot\/player\/login?token=eyJpdiI6IlU4bmFUOEJiNnpneFdVd3RkQjNtd3c9PSIsInZhbHVlIjoiUWhDUXZwRVduRHdIK25NK2kzYjdCZ2FFKzUwclRwd1BYcEszOTdxOHBRTHNVc2E5OVwvcDE5TmRYMjNxTzZ2dHVldzRUSFhLVHhkVEJOSHgzNVAwXC80cUNjeHQzME05clp2MG9JeVRMQTNPbzV0SWNvZGRyeGVCaWhOQWp2V0prRUlLSXgydkMyTkdCV1lWQ3ArMWxqNmk3WG1BOE83S1o4SVwveWxjeXMwbDl1amR6VXJiMU1TN1wvaVBKZXdLSzllbHE5eitnaGFRV3BWdFwvd25YYVZUUWljbWRnbWpJdVVxM1pnZk5qNUlXSXVYcWU0UTJjZVpwNGthWXRVUGdBVnZ6dlNoczVIem9HZThCNUl6WUJ2QzN6QT09IiwibWFjIjoiMTIxMmNjMDY2ZmJjYzg3NjFlMzQzZmFiN2VmNjc3ZDcyNGI5NTZkNmZhZDY0YzZhYmZjYWNhYjk1YzM2MGM2NCJ9"}}   
+
     ```
     失敗
-
     ```javascript
     {"status":"error","error":{"code":1,"message":"account is required"}}
     ```
+    
+    回傳參數說明
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    |loginUrl|string|玩家登入用網址|
 
 3. ### <span id="login">登入</span>
-    參數請使用經由[取得玩家帳密](#auth)取得的加密資料
+
 
     ```
-    GET /api/slot/user/login?
-        account=<account>&
-        password=<password>＆
-        source=<source>
+    GET 由[取得玩家登入網址](#auth)回傳的loginUrl
     ```
-
-
-    ##### 參數說明
-
-    | 參數名稱 | 參數說明 | 參數型態 |     說明    |
-    |:--------:|:--------:|:--------:|:-----------:|
-    |  account | 玩家帳號 |  string  |     必填    |
-    |  passoword | 玩家帳號 |  string  |     必填    |
-    |  source  | 登入識別 |  string  |     必填    |
-    |  redirect_url | 登出或斷線重導向 | string | 選填 |
 
     ##### 回傳結果
     成功
@@ -183,7 +140,7 @@
 4. ### <span id="user">查詢玩家</span>
 
     ```
-    GET /api/slot/user?
+    GET /api/v2/slot/player/info?
         key=<key>&
         account=<account>&
         hash=<hash>
@@ -203,19 +160,30 @@
     成功
 
     ```javascript
-     {"status":"success","data":{"status":"user_offline","id":3,"account":"haha0738","name":"\u6e2c\u8a66","chips":5000000}}
-     //status 有user_online, user_offline, service_not_available 三種狀態。
+     {"status":"success","data":{"id":30,"account":"mm@gmail.com","nickname":"mm","credit":0,"loginAt":null,"logoutAt":null,"mode":0,"enable":1,"limitWin":11111,"limitLose":30000,"isOnline":false}}
     ```
     失敗
 
     ```javascript
     {"status":"error","error":{"code":1,"message":"account is required"}}
     ```
-
+    回傳參數說明
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    |account|string|玩家帳號|
+    |nickname|string|玩家暱稱|
+    |credit|int|玩家目前額度|
+    |mode|int|玩家目前模式 0:正常 1:鎖單無法下注 2:封鎖無法登入|
+    |enable|int|是否啟用 0:停用 1:啟用|
+    |limitWin|int|限贏 0為無限制|
+    |limitLose|int|限輸 0為無限制|
+    |isOnline|boolean|玩家是否在上線|
+    
 5. ### <span id="logs">取得玩家遊戲紀錄</span>
 
     ```
-    GET /api/slot/user/logs?
+    GET /api/v2/slot/player/logs?
         key=<key>&
         account=<account>&
         start_at=<start_at>&
@@ -276,10 +244,10 @@
     {"status":"error","message":"<自訂訊息>"}
     ```   
 
-7. ### <spin id="add_chips">玩家加錢</spin>
+7. ### <spin id="credit_transfer">玩家額度轉出入</spin>
 
     ```
-    PUT /api/slot/user/chips/add?
+    PUT /api/v2/slot/player/credit/transfer?
         key=<key>&
         account=<account>&
         chips=<chips>&
@@ -292,7 +260,8 @@
     |:--------:|:--------:|:--------:|:-----------:|
     |    key   | 服務金鑰 |  string  | 由API端提供 |
     |  account | 玩家帳號 |  string  |     必填    |
-    |  chips   | 增加的籌碼 |  int  |     必填    |
+    |  credit   | 增加的籌碼 |  int  |     必填    |
+    |  transferId   | 交易編號 |  int  |     必填    |    
     |   hash   | 驗證參數 |  string  |     必填    |
 
     **hash = md5(account + chips + secret)**
@@ -301,19 +270,71 @@
     成功
 
     ```javascript
-       {"status":"success","data":{"original_chips":135475,"added_chips":"10","final_chips":135485,"account":"haha0738@ifalo.com.tw"}}
+	???
     ```
     失敗
 
     ```javascript
     {"status":"error","error":{"code":4,"message":"user not found"}}
     ```
+    回傳參數說明
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    |account|string|玩家帳號|  
+    |originCredit|int|原始籌碼|
+    |addCredit|int|新增籌碼|
+    |finalCredit|int|最後籌碼|
+    |transferId|int|交易編號|
+    |orderId|int|???|
+    |status|???|狀態|  
+      
 
 8. ### <spin id="kick">踢玩家</spin>
 
     呼叫之後會在10秒之後將在線的玩家踢出遊戲
     ```
-    DELETE /api/slot/user/kick?
+    DELETE /api/v2/slot/player/kick?
+        key=<key>&
+        account=<account>&
+        reason=<reason>&
+        hash=<hash>
+    ```
+
+    ##### 參數說明
+
+    | 參數名稱 | 參數說明 | 參數型態 |     說明    |
+    |:--------:|:--------:|:--------:|:-----------:|
+    |    key   | 服務金鑰 |  string  | 由API端提供 |
+    |  account| 玩家帳號 |  string  |     必填   |
+    |  reason  | 剔除原因 |  string  |     必填    |
+    |   hash   | 驗證參數 |  string  |     必填    |
+
+    **hash = md5(account + reason + secret)**
+
+    ##### 回傳結果
+    成功
+
+    ```javascript
+        {"status":"success","data":[{"status":"kicked","account":"haha0738@ifalo.com.tw"}]}
+
+    ```
+    失敗
+
+    ```javascript
+    {"status":"error","error":{"code":4,"message":"user not found"}}
+    ```
+    回傳參數說明
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    |account|string|玩家帳號|
+    |status|string|狀態user_offline,kicked,user_not_found|
+        
+8. ### <spin id="kick-multiple">踢多玩家</spin>
+    呼叫之後會在10秒之後將在線的玩家踢出遊戲
+    ```
+    DELETE /api/v2/slot/player/kick-multiple?
         key=<key>&
         accounts=<accounts>&
         reason=<reason>&
@@ -343,13 +364,19 @@
     ```javascript
     {"status":"error","error":{"code":4,"message":"user not found"}}
     ```
+    回傳參數說明
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    |account|string|玩家帳號|
+    |status|string|狀態user_offline,kicked,user_not_found|
 
 9. ### <span id="lose-limit">限輸</span>
 
     設定玩家限輸
 
     ```
-    PUT /api/slot/user/limit/lose?
+    PUT /api/v2/slot/player/limit/lose?
         key=<key>&
         account=<account>&
         limit=<limit>&
@@ -362,7 +389,7 @@
     |:--------:|:--------:|:--------:|:-----------:|
     |    key   | 服務金鑰 |  string  | 由API端提供 |
     |  account | 玩家帳號 |  string  |     必填    |
-    |  limit   | 限制金額 |  string  |     必填    |
+    |  limit   | 限制金額 |  int  |     必填    |
     |   hash   | 驗證參數 |  string  |     必填    |
 
     **hash = md5(account+limit+secret)**
@@ -371,20 +398,26 @@
     成功
 
     ```javascript
-       {"status":"success","data":{"account":"haha0738@ifalo.com.tw","win_limit":500,"lose_limit":"5000"}}
+       {"status":"success","data":{"account":"haha0738@ifalo.com.tw","limitLose":500,"limitWin":"5000"}}
     ```
     失敗
 
     ```javascript
     {"status":"error","error":{"code":4,"message":"user not found"}}
     ```
-
+    回傳參數說明
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    |account|string|玩家帳號|
+    |limitLose|int|限輸金額|
+    |limitWin|int|限贏金額|    
 10. ### <span id="win-limit">限贏</span>
 
     設定玩家限贏
 
     ```
-    PUT /api/slot/user/limit/win?
+    PUT /api/v2/slot/player/limit/win?
         key=<key>&
         account=<account>&
         limit=<limit>&
@@ -397,7 +430,7 @@
     |:--------:|:--------:|:--------:|:-----------:|
     |    key   | 服務金鑰 |  string  | 由API端提供 |
     |  account | 玩家帳號 |  string  |     必填    |
-    |  limit   | 限制金額 |  string  |     必填    |
+    |  limit   | 限制金額 |  int  |     必填    |
     |   hash   | 驗證參數 |  string  |     必填    |
 
     **hash = md5(account+limit+secret)**
@@ -406,20 +439,27 @@
     成功
 
     ```javascript
-       {"status":"success","data":{"account":"haha0738@ifalo.com.tw","win_limit":500,"lose_limit":"5000"}}
+       {"status":"success","data":{"account":"haha0738@ifalo.com.tw","limitLose":500,"limitWin":"5000"}}
     ```
     失敗
 
     ```javascript
     {"status":"error","error":{"code":4,"message":"user not found"}}
     ```
+    回傳參數說明    
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    |account|string|玩家帳號|
+    |limitLose|int|限輸金額|
+    |limitWin|int|限贏金額|  
 
 11. ### <span id="limit-recover">限注回復</span>
 
     限注回復
 
     ```
-    PUT /api/slot/user/limit/recover?
+    PUT /api/v2/slot/player/limit/recover?
         key=<key>&
         account=<account>&
         hash=<hash>
@@ -439,20 +479,24 @@
     成功
 
     ```javascript
-       {"status":"success","data":{"account":"haha0738@ifalo.com.tw","win_chips":0}}
+    {"status":"success","data":{"account":"mm@gmail.com","winChips":0}}
     ```
     失敗
 
     ```javascript
     {"status":"error","error":{"code":4,"message":"user not found"}}
     ```
-
-12. ### <span id="ban-mode">玩家封鎖模式</span>
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    |account|string|玩家帳號|
+    | winChips |int|回復後損益|
+    
+12. ### <span id="ban-mode">設定玩家帳號模式</span>
 
     玩家封鎖模式
 
     ```
-    PUT /api/slot/user/mode?
+    PUT /api/v2/slot/player/mode?
         key=<key>&
         accounts=<accounts>&
         status=<status>&        
@@ -464,17 +508,17 @@
     | 參數名稱 | 參數說明 | 參數型態 |     說明    |
     |:--------:|:--------:|:--------:|:-----------:|
     |    key   | 服務金鑰 |  string  | 由API端提供 |
-    |  accounts| 玩家帳號 |  string  |     必填，支援多組帳號可用`,`分割   |
-    |   status | 封鎖模式 |  enum    |     必填(normal,banned,locked, no_permission) <ul><li>`normal` 是無封鎖</li><li>`banned` 是停用</li><li>`locked`是鎖單</li><li>`no_permission`是無權限</li></ul>
+    |  account| 玩家帳號 |  string  |     必填  |
+    |   mode | 模式 |  int    |     必填(0:normal,1:locked, 2:banned) <ul><li>`normal` 是無封鎖</li><li>`banned` 是停用</li><li>`locked`是鎖單</li><li>`no_permission`是無權限</li></ul>
     |   hash   | 驗證參數 |  string  |     必填    |
 
-    **hash = md5(accounts+status+secret)**
+    **hash = md5(accounts+mode+secret)**
 
     ##### 回傳結果
     成功
 
     ```javascript
-      {"status":"success","data":[{"account":"aa","mode":"user_not_found"},{"account":"haha0738@ifalo.com.tw","mode":"banned"}]}
+      {"status":"success","data":[{"account":"haha0738@ifalo.com.tw","mode":"banned"}]}
     ```
     失敗
 
@@ -487,7 +531,7 @@
     注單回補，注單有可能太多，造成執行過久，所以是利用queue的方式，因此response之後注單不會立刻回補。
 
     ```
-    GET /api/slot/user/logs/recover?
+    GET /api/v2/slot/player/logs/recover?
         key=<key>&
         hash=<hash>
     ```
@@ -518,7 +562,7 @@
     查詢玩家限注狀態
 
     ```
-    GET /api/slot/user/limit?
+    GET /api/v2/slot/player/limit?
         key=<key>&
         account=<account>&
         hash=<hash>
@@ -545,13 +589,21 @@
     ```javascript
     {"status":"error","error":{"code":4,"message":"user not found"}}
     ```
+    回傳參數說明    
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    |account|string|玩家帳號|
+    |limitLose|int|限輸金額|
+    |limitWin|int|限贏金額|    
+    | winChips |int|損益|     
 
 15. ### <span id="get-ban-mode">查詢玩家封鎖模式</span>
 
     查詢玩家鎖單/停用狀態
 
     ```
-    GET /api/slot/user/mode?
+    GET /api/v2/slot/player/mode?
         key=<key>&
         accounts=<accounts>&
         hash=<hash>
@@ -578,13 +630,19 @@
     ```javascript
     {"status":"error","error":{"code":4,"message":"user not found"}}
     ```
+    回傳參數說明    
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    |account|string|玩家帳號|
+    |status|string|模式|    
 
 16. ### <span id="get-activation">查詢玩家是否啟用遊戲</span>
 
     查詢玩家是否啟用遊戲
 
     ```
-    GET /api/slot/user/active?
+    GET /api/v2/slot/player/enable?
         key=<key>&
         accounts=<accounts>&
         hash=<hash>
@@ -612,16 +670,22 @@
     ```javascript
     {"status":"error","error":{"code":4,"message":"user not found"}}
     ```
+    回傳參數說明    
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    |account|string|玩家帳號|
+    | activation |string|是否啟動 1:是, 0:否|    
 
 17. ### <span id="set-activation">設定玩家是否啟用遊戲</span>
 
     設定玩家是否啟用遊戲
 
     ```
-    PUT /api/slot/user/active?
+    PUT /api/v2/slot/player/enable?
         key=<key>&
         accounts=<accounts>&
-        activation=<0|1>&
+        enable=<0|1>&
         hash=<hash>
     ```
 
@@ -631,7 +695,7 @@
     |:--------:|:--------:|:--------:|:-----------:|
     |    key   | 服務金鑰 |  string  | 由API端提供 |
     |  accounts| 玩家帳號 |  string  |     必填，支援多組帳號可用`,`分割   |
-    |activation| 驗證參數 |  int  	|     必填，0或1 |
+    |enable| 驗證參數 |  int  	|     必填，是否啟動 1:是, 0:否 |
     |   hash   | 驗證參數 |  string  |     必填    |
 
     **hash = md5(accounts + activation + secret )**
@@ -647,14 +711,19 @@
     ```javascript
     {"status":"error","error":{"code":4,"message":"user not found"}}
     ```
-
+    回傳參數說明    
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    |account|string|玩家帳號|
+    | activation |int|是否啟動 1:是, 0:否| 
 
 18. ### <span id="query-logs">LOG查詢</span>
 
     查詢玩家下注LOG
 
     ```
-    GET /api/slot/user/logs/detail?
+    GET /api/v2/slot/player/logs/detail?
         key=<key>&
         account=<account>&
         start_at=<start_at>&
@@ -690,7 +759,7 @@
 
     玩家下注簡報查詢
     ```
-    GET /api/slot/user/log/summary?
+    GET /api/v2/slot/bet/report?
         key=<key>&
         account=<account>&
         start_at=<start_at>&
@@ -721,13 +790,47 @@
     ```javascript
     {"status":"error","error":{"code":4,"message":"user not found"}}
     ```
+19. ### <span id="summary-logs">玩家多人下注簡報區間總額查詢</span>
 
+    玩家下注簡報查詢
+    ```
+    GET /api/v2/slot/bet/report-multiple?
+        key=<key>&
+        account=<account>&
+        start_at=<start_at>&
+        end_at=<end_at>&
+        hash=<hash>
+    ```
+
+    ##### 參數說明
+
+    | 參數名稱 | 參數說明 | 參數型態 |     說明    |
+    |:--------:|:--------:|:--------:|:-----------:|
+    |    key   | 服務金鑰 |  string  | 由API端提供 |
+    |  GameType | 遊戲代稱 |  string  |     必填 [GameType](#GameType) |
+    | start_at  | 驗證參數 |  string  |     固定格式Y-m-d H:i:s或者0 |
+    | end_at    | 驗證參數 |  string  |     固定格式Y-m-d H:i:s或者0 |
+    |   hash   | 驗證參數 |  string  |     必填    |
+
+       **hash = md5(account + start_at + end_at + secret)**
+
+    ##### 回傳結果
+
+    成功
+    ```javascript
+      ???
+    ```
+
+    失敗
+    ```javascript
+    {"status":"error","error":{"code":4,"message":"user not found"}}
+    ```
 
 20. ### <span id="jp-logs">玩家JP紀錄查詢</span>
 
     玩家JP紀錄查詢
     ```
-    GET /api/slot/user/jp/logs?
+    GET /api/v2/slot/jackpot?
         key=<key>&
         account=<account>&
         start_at=<start_at>&
@@ -758,13 +861,101 @@
     ```javascript
     {"status":"error","error":{"code":4,"message":"user not found"}}
     ```
+    回傳參數說明    
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    | jackpot |string|遊戲jackpot編號|
+    | createdAt |string|jackpot時間|
+    | paidAt |string|核銷時間|
+    
+20. ### <span id="jp-multiple">玩家多人JP紀錄查詢</span>
+
+    玩家JP紀錄查詢
+    ```
+    GET /api/v2/slot/jackpot/multiple?
+        key=<key>&
+        gameType=<gameType>&
+        start_at=<start_at>&
+        end_at=<end_at>&
+        hash=<hash>
+    ```
+
+    ##### 參數說明
+
+     | 參數名稱 | 參數說明 | 參數型態 |     說明    |
+    |:--------:|:--------:|:--------:|:-----------:|
+    |    key   | 服務金鑰 |  string  | 由API端提供 |
+    |  gameType| 玩家帳號 |  string  |     必填 |
+    |start_at  | 驗證參數 |  string  |     固定格式Y-m-d H:i:s或者0 |
+    |end_at    | 驗證參數 |  string  |     固定格式Y-m-d H:i:s或者0 |
+    |   hash   | 驗證參數 |  string  |     必填    |
+
+       **hash = md5(gameType + start_at + end_at + secret)**
+
+    ##### 回傳結果
+
+    成功
+    ```javascript
+      {"status":"success","data":[{"account":"ooo@gmail.com","jackpot":1,"paid_at":"2017-04-14 11:36:54","rate":1,"game_id":1,"created_at":"2017-04-13 14:31:50"}]}
+    ```
+
+    失敗
+    ```javascript
+    {"status":"error","error":{"code":4,"message":"user not found"}}
+    ```
+    回傳參數說明    
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    | jackpot |string|遊戲jackpot編號|
+    | created_at |string|jackpot時間|
+    | paid_at |string|核銷時間|    
+
+21. ### <span id="jp-status">JP中獎紀錄</span>
 
 
+    ```
+    GET /api/v2/slot/jackpot-status?
+        key=<key>&
+        status=<status>&
+        hash=<hash>
+    ```
+
+    ##### 參數說明
+
+    | 參數名稱 | 參數說明 | 參數型態 |     說明    |
+    |:--------:|:--------:|:--------:|:-----------:|
+    |    key   | 服務金鑰 |  string  | 由API端提供 |
+    |  status| 狀態 |  int  |  必填 0:不限,1未核銷,2：已核銷 |
+    |   hash   | 驗證參數 |  string  |     必填    |
+
+       **hash = md5(account + jp_id + verified_at + secret)**
+
+    ##### 回傳結果
+
+    成功
+    ```javascript
+    {"status":"success","data":[{"account":"ooo@gmail.com","jackpot":1,"paid_at":"2017-04-14 11:36:54","rate":1,"game_id":1,"created_at":"2017-04-13 14:31:50"}]}
+    ```
+
+    失敗
+    ```javascript
+    {"status":"error","error":{"code":4,"message":"user not found"}}
+    ```
+    回傳參數說明    
+    
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    | jackpot |string|遊戲jackpot編號|
+    | created_at |string|jackpot時間|
+    | paid_at |string|核銷時間|
+             
 21. ### <span id="jp-vertification">玩家JP核銷</span>
 
     玩家JP核銷
     ```
-    PUT /api/slot/user/jp/vertify?
+    PUT /api/v2/slot/jackpot/write-off?
         key=<key>&
         account=<account>&
         jp_id=<jp_id>&
@@ -788,21 +979,18 @@
 
     成功
     ```javascript
-      {"status":"success","data":{"id":6,"jackpot":8622,"created_at":"2016-05-30 15:06:13","paid_at":"2016-06-01 11:34:18","rate":0.15}}
+    {"status":"success","data":{"id":1,"jackpot":1,"createdAt":"2017-04-13 14:31:50","paidAt":"2017-04-14 11:36:54","rate":1,"gameId":1}}
     ```
 
     失敗
     ```javascript
     {"status":"error","error":{"code":4,"message":"user not found"}}
     ```
+    回傳參數說明    
     
-21. ### <span id="online">在線用戶</span>    
-    ```
-    GET /api/slot/user/online
-    ```    
-    ##### 回傳結果
+    |參數|型態|說明|
+    |:---:|:---:|:---:|
+    | jackpot |string|遊戲jackpot編號|
+    | createdAt |string|jackpot時間|
+    | paidAt |string|核銷時間|
 
-    成功
-    ```javascript
-{"status":"success","data":[{"user_id":25,"account":"wei01","name":"wei01","chips":5280674,"carry_in_chips":0,"machine_no":0,"machine_url":null,"user_url":"http:\/\/feature_api.dev\/admin\/slot\/user\/25","zone":"\u91d1\u9322\u8c93"}]}
-    ```
